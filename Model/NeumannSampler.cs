@@ -4,7 +4,8 @@ using System.Text;
 
 namespace RandomNumberGenerationAndModeling.Model
 {
-    public abstract class RandomProcess
+    public class NeumannSampler : RandomSampler
     {
+
     }
 }

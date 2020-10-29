@@ -4,7 +4,8 @@ using System.Text;
 
 namespace RandomNumberGenerationAndModeling.Model
 {
-    public interface IDataEstimator
+    public class RandomModel
     {
+        public RandomSampler Sampler { get; set; }
     }
 }

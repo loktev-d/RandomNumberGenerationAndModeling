@@ -4,8 +4,7 @@ using System.Text;
 
 namespace RandomNumberGenerationAndModeling.Model
 {
-    public interface ITask
+    public class DataEstimator
     {
-        public void Invoke();
     }
 }

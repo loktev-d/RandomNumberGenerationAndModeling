@@ -18,7 +18,6 @@ namespace RandomNumberGenerationAndModeling.Model
                 Seed = Seed * Seed % Modulus;
                 yield return Seed;
             }
-
         }
     }
 }
