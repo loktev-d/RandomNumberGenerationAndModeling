@@ -5,19 +5,24 @@ namespace RandomNumberGenerationAndModeling.Model
 {
     public class LotterySampler : RandomSampler
     {
-        public float[] Probabilities { get; set; }
+        public float[] Probabilities { get; }
 
-        public override IEnumerable Generate(float[] randomNumbers)
+        public LotterySampler(float[] probabilities) : base(probabilities.Length)
         {
-            for (var i = 0; i < randomNumbers.Length; i++)
+            Probabilities = Probabilities;
+        }
+
+        public override IEnumerable Generate()
+        {
+            for (var i = 0; i < Length; i++)
             {
                 float range = 0;
-                for (var j = 0; j < Probabilities.Length; j++)
+                for (var j = 0; j < Length; j++)
                 {
                     range += Probabilities[j];
-                    if (randomNumbers[i] <= range)
+                    if (GenerateRandomNumber() <= range)
                     {
-                        yield return j;
+                        yield return j+1;
                         break;
                     }
                 }

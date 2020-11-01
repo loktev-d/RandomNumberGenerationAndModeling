@@ -1,23 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 
 namespace RandomNumberGenerationAndModeling.Model
 {
-    public class СongruentialGenerator : RandomGenerator
+    public class СongruentialGenerator : UniformGenerator
     {
         public long Multiplier { get; set; }
         public long Increment { get; set; }
 
-        public СongruentialGenerator(int modulus, int seed, int multiplier, int increment)
-            : base(modulus, seed)
+        public СongruentialGenerator(long modulus, long seed, int length, long multiplier, long increment)
+            : base(modulus, seed, length)
         {
             Multiplier = multiplier;
             Increment = increment;
         }
 
-        public override IEnumerable<long> Generate(int size)
+        public override IEnumerable Generate()
         {
-            for (var i = 0; i < size; i++)
+            for (var i = 0; i < Length; i++)
             {
                 Seed = (Multiplier * Seed + Increment) % Modulus;
                 yield return Seed;

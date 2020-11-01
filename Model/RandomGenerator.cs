@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 
 namespace RandomNumberGenerationAndModeling.Model
 {
     public abstract class RandomGenerator
     {
-        public long Modulus { get; set; }
-        public long Seed { get; set; }
+        public int Length { get; set; }
 
-        protected RandomGenerator(long modulus, long seed)
+        public RandomGenerator(int length)
         {
-            Modulus = modulus;
-            Seed = seed;
+            Length = length;
         }
 
-        public abstract IEnumerable<long> Generate(int size);
+        public abstract IEnumerable Generate();
     }
 }

@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 
 namespace RandomNumberGenerationAndModeling.Model
 {
-    public class BbsGenerator : RandomGenerator
+    public class BbsGenerator : UniformGenerator
     {
-        public BbsGenerator(long modulus, long seed)
-            : base(modulus, seed)
+        public BbsGenerator(long modulus, long seed, int length) : base(modulus, seed, length)
         {
             
         }
 
-        public override IEnumerable<long> Generate(int size)
+        public override IEnumerable Generate()
         {
-            for (var i = 0; i < size; i++)
+            for (var i = 0; i < Length; i++)
             {
                 Seed = Seed * Seed % Modulus;
                 yield return Seed;

@@ -1,17 +1,27 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace RandomNumberGenerationAndModeling.Model
 {
     public class CltSampler : NormalSampler
     {
-        protected override IEnumerable<float> Normalize(IEnumerable<float> randomNumbers)
+        public int PopulationSize { get; set; }
+
+        public CltSampler(float shift, float scale, int length, int  populationSize) : base(shift, scale, length)
         {
-            foreach (var randomNumber in randomNumbers)
+            PopulationSize = populationSize;
+        }
+
+        protected override IEnumerable<float> Normalize()
+        {
+            for (var i = 0; i < Length; i++)
             {
-                yield return (randomNumber - randomNumbers.Count() / 2) / (float) Math.Sqrt(randomNumbers.Count() / 12);
+                float randomNumber = 0;
+                for (var j = 0; j < PopulationSize; j++) 
+                {
+                    randomNumber += GenerateRandomNumber();
+                }
+                yield return (randomNumber - PopulationSize / 2) / (float) Math.Sqrt(PopulationSize / 12);
             }
         }
     }

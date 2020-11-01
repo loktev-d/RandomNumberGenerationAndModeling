@@ -9,11 +9,17 @@ namespace RandomNumberGenerationAndModeling.Model
         public float Shift { get; set; }
         public float Scale { get; set; }
 
-        protected abstract IEnumerable<float> Normalize(IEnumerable<float> randomNumbers);
-
-        public override IEnumerable Generate(IEnumerable<float> randomNumbers)
+        public NormalSampler(float shift, float scale, int length) : base(length)
         {
-            var normalizedNumbers = Normalize(randomNumbers);
+            Shift = shift;
+            Scale = scale;
+        }
+
+        protected abstract IEnumerable<float> Normalize();
+
+        public override IEnumerable Generate()
+        {
+            var normalizedNumbers = Normalize();
 
             foreach (var number in normalizedNumbers)
             {
