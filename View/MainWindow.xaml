@@ -1,0 +1,48 @@
+﻿<Window x:Class="RandomNumberGenerationAndModeling.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:local="clr-namespace:RandomNumberGenerationAndModeling"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" MinWidth="610">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="220"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <WrapPanel Grid.ColumnSpan="2" Margin="0 10 0 10">
+            <Label Margin="10 0 10 0">Generation Method:</Label>
+            <ComboBox Height="20" Width="70" Margin="0 0 10 0"></ComboBox>
+            <Label Margin="10 0 10 0">Distribution law:</Label>
+            <ComboBox Height="20" Width="70" Margin="0 0 10 0"></ComboBox>
+            <Button Height="20" Width="70" Margin="10 0 10 0">Configure...</Button>
+            <Button Height="20" Width="60" Margin="10 0 10 0">Generate</Button>
+        </WrapPanel>
+        <lvc:CartesianChart Grid.Row="1"></lvc:CartesianChart>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Border BorderBrush="Gainsboro" BorderThickness="1 0 1 1"></Border>
+            <StackPanel Margin="10 10 10 10">
+                <Label>Expectation:</Label>
+                <Label>Variance:</Label>
+                <Label>Standard deviation:</Label>
+            </StackPanel>
+            <Border Grid.Row="1" BorderBrush="Gainsboro" BorderThickness="1 0 1 1"></Border>
+            <StackPanel Grid.Row="1" Margin="10 10 10 10">
+                <Label>Sample expectation:</Label>
+                <Label>Sample variance:</Label>
+                <Label>Sample standard deviation:</Label>
+            </StackPanel>
+        </Grid>
+        <Border Grid.ColumnSpan="2" BorderBrush="Gainsboro" BorderThickness="0 0 0 1"></Border>
+    </Grid>
+</Window>
