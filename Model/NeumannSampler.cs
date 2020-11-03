@@ -3,20 +3,18 @@ using System.Collections;
 
 namespace RandomNumberGenerationAndModeling.Model
 {
-    public class NeumannSampler : RandomSampler
+    public class NeumannSampler : CustomSampler<ProbabilityDensityFunction>
     {
         public float FirstHorizontalBound { get; set; }
         public float SecondHorizontalBound { get; set; }
         public float UpperVerticalBound { get; set; }
-        public ProbabilityDensityFunction ProbabilityDensityFunction { get; set; }
 
         public NeumannSampler(float first, float second, float upper, int length, ProbabilityDensityFunction function)
-            : base(length)
+            : base(length, function)
         {
             FirstHorizontalBound = first;
             SecondHorizontalBound = second;
             UpperVerticalBound = upper;
-            ProbabilityDensityFunction = function;
         }
 
         public override IEnumerable Generate()
@@ -26,9 +24,9 @@ namespace RandomNumberGenerationAndModeling.Model
                 var pointHorizontalCoordinate = FirstHorizontalBound +
                                                 GenerateRandomNumber() * (SecondHorizontalBound - FirstHorizontalBound);
 
-                var pointVerticalCoordinate = GenerateRandomNumber() * ProbabilityDensityFunction.UpperBound;
+                var pointVerticalCoordinate = GenerateRandomNumber() * Distribution.UpperBound;
 
-                if (pointVerticalCoordinate < ProbabilityDensityFunction.GetVerticalCoordinate(pointVerticalCoordinate))
+                if (pointVerticalCoordinate < Distribution.GetValue(pointVerticalCoordinate))
                 {
                     yield return pointHorizontalCoordinate;
                 }

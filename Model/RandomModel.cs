@@ -7,7 +7,7 @@ namespace RandomNumberGenerationAndModeling.Model
     public class RandomModel
     {
         public UniformGenerator Generator { get; set; }
-        public DataEstimator Estimator { get; set; }
+        public SampleEstimator Estimator { get; set; }
 
         public void Execute()
         {

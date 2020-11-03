@@ -3,11 +3,9 @@ using System.Collections;
 
 namespace RandomNumberGenerationAndModeling.Model
 {
-    public class InverseTransformSampler : RandomSampler
+    public class InverseTransformSampler : CustomSampler<DistributionFunction>
     {
-        public MathFunction InverseFunction { get; set; }
-
-        public InverseTransformSampler(int length) : base(length)
+        public InverseTransformSampler(int length, DistributionFunction inverseFunction) : base(length, inverseFunction)
         {
         }
 
@@ -15,7 +13,7 @@ namespace RandomNumberGenerationAndModeling.Model
         {
             for (var i = 0; i < Length; i++)
             {
-                yield return InverseFunction.GetVerticalCoordinate(GenerateRandomNumber());
+                yield return Distribution.GetValue(GenerateRandomNumber());
             }
         }
     }

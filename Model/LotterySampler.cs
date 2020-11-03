@@ -3,13 +3,11 @@ using System.Collections;
 
 namespace RandomNumberGenerationAndModeling.Model
 {
-    public class LotterySampler : RandomSampler
+    public class LotterySampler : CustomSampler<DiscreteDistribution>
     {
-        public float[] Probabilities { get; }
-
-        public LotterySampler(float[] probabilities) : base(probabilities.Length)
+        public LotterySampler(int length, DiscreteDistribution distribution) : base(length, distribution)
         {
-            Probabilities = Probabilities;
+            distribution.Length = Length;
         }
 
         public override IEnumerable Generate()
@@ -17,12 +15,12 @@ namespace RandomNumberGenerationAndModeling.Model
             for (var i = 0; i < Length; i++)
             {
                 float range = 0;
-                for (var j = 0; j < Length; j++)
+                for (var j = 1; j <= Length; j++)
                 {
-                    range += Probabilities[j];
+                    range += Distribution.GetValue(j);
                     if (GenerateRandomNumber() <= range)
                     {
-                        yield return j+1;
+                        yield return j;
                         break;
                     }
                 }

@@ -2,7 +2,7 @@
 
 namespace RandomNumberGenerationAndModeling.Model
 {
-    public abstract class ProbabilityDensityFunction : MathFunction
+    public abstract class ProbabilityDensityFunction : DistributionFunction
     {
         public abstract float UpperBound { get; }
     }

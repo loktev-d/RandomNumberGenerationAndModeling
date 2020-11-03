@@ -8,17 +8,6 @@ namespace RandomNumberGenerationAndModeling.Model
         protected List<float> randomGeneratedNumbers;
         protected Random Generator { get; set; }
 
-        public IEnumerable<float> RandomGeneratedNumbers
-        {
-            get
-            {
-                foreach (float number in randomGeneratedNumbers)
-                {
-                    yield return number;
-                }
-            }
-        }
-
         public RandomSampler(int length) : base(length)
         {
             Length = length;
