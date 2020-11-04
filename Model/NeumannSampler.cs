@@ -7,14 +7,19 @@ namespace RandomNumberGenerationAndModeling.Model
     {
         public float FirstHorizontalBound { get; set; }
         public float SecondHorizontalBound { get; set; }
-        public float UpperVerticalBound { get; set; }
 
-        public NeumannSampler(float first, float second, float upper, int length, ProbabilityDensityFunction function)
+        public NeumannSampler(float firstBound, float secondBound, int length)
+            : base(length)
+        {
+            FirstHorizontalBound = firstBound;
+            SecondHorizontalBound = secondBound;
+        }
+
+        public NeumannSampler(float firstBound, float secondBound, int length, ProbabilityDensityFunction function)
             : base(length, function)
         {
-            FirstHorizontalBound = first;
-            SecondHorizontalBound = second;
-            UpperVerticalBound = upper;
+            FirstHorizontalBound = firstBound;
+            SecondHorizontalBound = secondBound;
         }
 
         public override IEnumerable Generate()
@@ -35,6 +40,11 @@ namespace RandomNumberGenerationAndModeling.Model
                     i--;
                 }
             }
+        }
+
+        public override string ToString()
+        {
+            return "Neumann";
         }
     }
 }

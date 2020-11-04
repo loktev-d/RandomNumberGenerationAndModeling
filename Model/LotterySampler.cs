@@ -5,9 +5,16 @@ namespace RandomNumberGenerationAndModeling.Model
 {
     public class LotterySampler : CustomSampler<DiscreteDistribution>
     {
+        public new int Length => Distribution.Length;
+
+        public LotterySampler(int length) : base(length)
+        {
+
+        }
+
         public LotterySampler(int length, DiscreteDistribution distribution) : base(length, distribution)
         {
-            distribution.Length = Length;
+
         }
 
         public override IEnumerable Generate()
@@ -25,6 +32,11 @@ namespace RandomNumberGenerationAndModeling.Model
                     }
                 }
             }
+        }
+
+        public override string ToString()
+        {
+            return "Lottery";
         }
     }
 }

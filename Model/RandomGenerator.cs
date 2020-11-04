@@ -16,5 +16,7 @@ namespace RandomNumberGenerationAndModeling.Model
         }
 
         public abstract IEnumerable Generate();
+
+        public abstract override string ToString();
     }
 }

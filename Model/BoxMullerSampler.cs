@@ -5,7 +5,6 @@ namespace RandomNumberGenerationAndModeling.Model
 {
     public class BoxMullerSampler : NormalSampler
     {
-
         public BoxMullerSampler(float shift, float scale, int length) : base(shift, scale, length)
         {
 
@@ -18,6 +17,11 @@ namespace RandomNumberGenerationAndModeling.Model
                 yield return (float) Math.Sqrt(-2 * (float) Math.Log(GenerateRandomNumber(), Math.E)) *
                              (float) Math.Cos(2 * Math.PI * GenerateRandomNumber());
             }
+        }
+
+        public override string ToString()
+        {
+            return "Box-Muller transform";
         }
     }
 }

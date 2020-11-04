@@ -24,5 +24,10 @@ namespace RandomNumberGenerationAndModeling.Model
                 yield return (randomNumber - PopulationSize / 2) / (float) Math.Sqrt(PopulationSize / 12);
             }
         }
+
+        public override string ToString()
+        {
+            return "Central limit theorem";
+        }
     }
 }

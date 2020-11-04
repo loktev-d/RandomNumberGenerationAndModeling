@@ -4,10 +4,15 @@ namespace RandomNumberGenerationAndModeling.Model
 {
     public abstract class CustomSampler<T> : RandomSampler where T : DistributionFunction
     {
-        public T Distribution { get; protected set; }
+        public T Distribution { get; set; }
         public override float MathExpectation => Distribution.MathExpectation;
         public override float Variance => Distribution.Variance;
         public override float StandardDeviation => Distribution.StandardDeviation;
+
+        public CustomSampler(int length) : base(length)
+        {
+            Distribution = null;
+        }
 
         public CustomSampler(int length, T distribution) : base(length)
         {

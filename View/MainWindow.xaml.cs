@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using RandomNumberGenerationAndModeling.ViewModel;
 
 namespace RandomNumberGenerationAndModeling
 {
@@ -23,6 +24,8 @@ namespace RandomNumberGenerationAndModeling
         public MainWindow()
         {
             InitializeComponent();
+
+            DataContext = new ApplicationViewModel();
         }
     }
 }

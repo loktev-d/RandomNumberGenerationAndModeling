@@ -9,6 +9,7 @@ namespace RandomNumberGenerationAndModeling.Model
 
         public RandomSampler(int length) : base(length)
         {
+            Generator = new Random();
             Length = length;
         }
 

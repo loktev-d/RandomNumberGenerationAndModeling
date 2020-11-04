@@ -3,12 +3,12 @@ using System.Collections;
 
 namespace RandomNumberGenerationAndModeling.Model
 {
-    public class СongruentialGenerator : UniformGenerator
+    public class CongruentialGenerator : UniformGenerator
     {
         public long Multiplier { get; set; }
         public long Increment { get; set; }
 
-        public СongruentialGenerator(long modulus, long seed, int length, long multiplier, long increment)
+        public CongruentialGenerator(long modulus, long seed, int length, long multiplier, long increment)
             : base(modulus, seed, length)
         {
             Multiplier = multiplier;
@@ -22,6 +22,11 @@ namespace RandomNumberGenerationAndModeling.Model
                 Seed = (Multiplier * Seed + Increment) % Modulus;
                 yield return Seed;
             }
+        }
+
+        public override string ToString()
+        {
+            return "Linear congruential";
         }
     }
 }
