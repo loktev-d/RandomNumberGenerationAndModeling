@@ -8,6 +8,8 @@ using System.Windows.Documents;
 using Prism.Commands;
 using RandomNumberGenerationAndModeling.Model;
 using System.Linq;
+using System.Windows;
+using RandomNumberGenerationAndModeling.View;
 
 namespace RandomNumberGenerationAndModeling.ViewModel
 {
@@ -15,6 +17,7 @@ namespace RandomNumberGenerationAndModeling.ViewModel
     {
         private RandomGenerator selectedGenerator;
         private bool isCustomSampler;
+        private bool isConfigurable;
         private IEnumerable GeneratedNumbers { get; set; }
 
         public RandomGenerator SelectedGenerator
@@ -33,10 +36,14 @@ namespace RandomNumberGenerationAndModeling.ViewModel
                 {
                     IsCustomSampler = false;
                 }
+
+                IsConfigurable = GeneratorViewModels.ContainsKey(selectedGenerator.GetType());
+
                 OnPropertyChanged("SelectedGenerator");
             }
         }
         public ObservableCollection<RandomGenerator> Generators { get; }
+        public Dictionary<Type, Action> GeneratorViewModels { get; set; }
         public DiscreteDistribution SelectedDistribution { get; set; }
         public ObservableCollection<DistributionFunction> Distributions { get; }
 
@@ -52,8 +59,19 @@ namespace RandomNumberGenerationAndModeling.ViewModel
             }
         }
 
+        public bool IsConfigurable
+        {
+            get => isConfigurable;
+            set
+            {
+                isConfigurable = value;
+                OnPropertyChanged("IsConfigurable");
+            }
+        }
+
         public DelegateCommand GenerateCommand { get; }
-        public DelegateCommand ConfigureCommand { get; }
+        public DelegateCommand ConfigureMethodCommand { get; }
+        public DelegateCommand ConfigureDistributionCommand { get; }
 
         public ApplicationViewModel()
         {
@@ -65,21 +83,44 @@ namespace RandomNumberGenerationAndModeling.ViewModel
                 new BoxMullerSampler(865, 43, 30),
                 new NeumannSampler(20, 100,30),
                 new InverseTransformSampler(30),
-                new LotterySampler(30)
+                new LotterySampler()
             };
 
+            GeneratorViewModels = new Dictionary<Type, Action>()
+            {
+                {
+                    typeof(CongruentialGenerator),
+                    () => new CongruentialGeneratorDialogView((CongruentialGenerator) SelectedGenerator).ShowDialog()
+                },
+                {typeof(BbsGenerator), () => new BbsGeneratorDialogView((BbsGenerator) SelectedGenerator).ShowDialog()},
+                {typeof(CltSampler), () => new CltSamplerDialogView((CltSampler) SelectedGenerator).ShowDialog()},
+                {typeof(BoxMullerSampler), () => new  BoxMullerSamplerDialogView((BoxMullerSampler) SelectedGenerator).ShowDialog()},
+                {typeof(NeumannSampler), () => new NeumannSamplerDialogView((NeumannSampler) SelectedGenerator).ShowDialog()},
+                {typeof(InverseTransformSampler), () => new InverseTransformSamplerDialogView((InverseTransformSampler) SelectedGenerator).ShowDialog()}
+            };
+            
             SelectedGenerator = Generators[0];
 
             Distributions = new ObservableCollection<DistributionFunction>();
 
-
             GenerateCommand = new DelegateCommand(() => GeneratedNumbers = SelectedGenerator.Generate().Cast<float>().ToList());
+            ConfigureMethodCommand = new DelegateCommand(ConfigureMethod);
+            ConfigureDistributionCommand = new DelegateCommand(ConfigureDistribution);
+        }
+
+        public void ConfigureMethod()
+        {
+            GeneratorViewModels[SelectedGenerator.GetType()].Invoke();
+        }
+
+        public void ConfigureDistribution()
+        {
+
         }
 
         private void OnPropertyChanged([CallerMemberName] string prop = "")
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
     }
 }

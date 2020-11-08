@@ -7,12 +7,12 @@ namespace RandomNumberGenerationAndModeling.Model
     {
         public new int Length => Distribution.Length;
 
-        public LotterySampler(int length) : base(length)
+        public LotterySampler() : base(0)
         {
 
         }
 
-        public LotterySampler(int length, DiscreteDistribution distribution) : base(length, distribution)
+        public LotterySampler(DiscreteDistribution distribution) : base(distribution.Length)
         {
 
         }
