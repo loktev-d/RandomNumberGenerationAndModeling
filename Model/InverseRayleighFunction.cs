@@ -18,5 +18,10 @@ namespace RandomNumberGenerationAndModeling.Model
         {
             return VariableS * (float) Math.Sqrt(-2 * (float) Math.Log(1 - x, Math.E));
         }
+
+        public override string ToString()
+        {
+            return "Rayleigh distribution";
+        }
     }
 }

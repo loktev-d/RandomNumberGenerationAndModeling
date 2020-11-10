@@ -5,7 +5,15 @@ namespace RandomNumberGenerationAndModeling.Model
 {
     public class LotterySampler : CustomSampler<DiscreteDistribution>
     {
-        public new int Length => Distribution.Length;
+        public new int Length
+        {
+            get
+            {
+                if (Distribution != null)
+                    return Distribution.Length;
+                return 0;
+            }
+        }
 
         public LotterySampler() : base(0)
         {

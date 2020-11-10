@@ -6,7 +6,7 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:RandomNumberGenerationAndModeling"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="855" MinHeight="300" MinWidth="855">
+        Title="RNG and Modeling" Height="450" Width="855" MinHeight="300" SizeToContent="Width">
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="50"></RowDefinition>
@@ -16,14 +16,16 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition Width="220"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <WrapPanel Grid.ColumnSpan="2" Margin="0 10 0 10">
+        <WrapPanel Grid.ColumnSpan="2" Margin="0 10 10 10">
             <Label Margin="10 0 10 0">Generation Method:</Label>
-            <ComboBox Height="22" Width="150" Margin="0 0 10 0" ItemsSource="{Binding Path=Generators}" 
+            <ComboBox Height="22" Width="170" Margin="0 0 10 0" ItemsSource="{Binding Path=Generators}" 
                       SelectedItem="{Binding SelectedGenerator}"></ComboBox>
             <Button Height="20" Width="70" Margin="10 0 10 0" Command="{Binding ConfigureMethodCommand}" 
                     IsEnabled="{Binding IsConfigurable}">Configure...</Button>
             <Label Margin="10 0 10 0">Distribution law:</Label>
-            <ComboBox Height="22" Width="150" Margin="0 0 10 0" IsEnabled="{Binding IsCustomSampler}"></ComboBox>
+            <ComboBox Height="22" Width="170" Margin="0 0 10 0" IsEnabled="{Binding IsCustomSampler}" 
+                      ItemsSource="{Binding CurrentDistributions}" 
+                      SelectedItem="{Binding SelectedDistribution}"></ComboBox>
             <Button Height="20" Width="70" Margin="10 0 10 0" Command="{Binding ConfigureDistributionCommand}" 
                     IsEnabled="{Binding IsCustomSampler}">Configure...</Button>
             <Button Height="20" Width="60" Margin="10 0 10 0" Command="{Binding GenerateCommand}">Generate</Button>

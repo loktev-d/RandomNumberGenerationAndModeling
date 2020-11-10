@@ -25,5 +25,10 @@ namespace RandomNumberGenerationAndModeling.Model
                    (VariableC - VariableA * (float)Math.Pow(x - VariableM, 2)) /
                    (4 * VariableC * (float)Math.Sqrt(VariableC));
         }
+
+        public override string ToString()
+        {
+            return "Density function A";
+        }
     }
 }

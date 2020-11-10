@@ -22,5 +22,10 @@ namespace RandomNumberGenerationAndModeling.Model
 
             return (float) Math.Pow(1 - SuccessProbability, (int) x - 1) * SuccessProbability;
         }
+
+        public override string ToString()
+        {
+            return "Geometrical distribution";
+        }
     }
 }

@@ -15,20 +15,23 @@ namespace RandomNumberGenerationAndModeling.ViewModel
 {
     public class ApplicationViewModel: INotifyPropertyChanged
     {
-        private RandomGenerator selectedGenerator;
-        private bool isCustomSampler;
-        private bool isConfigurable;
+        private RandomGenerator _selectedGenerator;
+        private DistributionFunction _selectedDistribution;
+        private bool _isCustomSampler;
+        private bool _isConfigurable;
+        private ObservableCollection<DistributionFunction> _currentDistributions;
+
         private IEnumerable GeneratedNumbers { get; set; }
 
         public RandomGenerator SelectedGenerator
         {
-            get => selectedGenerator;
+            get => _selectedGenerator;
             set
             {
-                selectedGenerator = value;
-                if (selectedGenerator is CustomSampler<DistributionFunction> ||
-                    selectedGenerator is CustomSampler<ProbabilityDensityFunction> ||
-                    selectedGenerator is CustomSampler<DiscreteDistribution>)
+                _selectedGenerator = value;
+                if (_selectedGenerator is CustomSampler<DistributionFunction> ||
+                    _selectedGenerator is CustomSampler<ProbabilityDensityFunction> ||
+                    _selectedGenerator is CustomSampler<DiscreteDistribution>)
                 {
                     IsCustomSampler = true;
                 }
@@ -37,34 +40,50 @@ namespace RandomNumberGenerationAndModeling.ViewModel
                     IsCustomSampler = false;
                 }
 
-                IsConfigurable = GeneratorViewModels.ContainsKey(selectedGenerator.GetType());
+                IsConfigurable = DialogViewModels.ContainsKey(_selectedGenerator.GetType());
+
+                CurrentDistributions = new ObservableCollection<DistributionFunction>(Distributions
+                    .Where(pair => SelectedGenerator.GetType().Equals(pair.Key)).Select(pair => pair.Value));
+
+                if (CurrentDistributions != null && CurrentDistributions.Count != 0)
+                    SelectedDistribution = CurrentDistributions[0];
 
                 OnPropertyChanged("SelectedGenerator");
             }
         }
         public ObservableCollection<RandomGenerator> Generators { get; }
-        public Dictionary<Type, Action> GeneratorViewModels { get; set; }
-        public DiscreteDistribution SelectedDistribution { get; set; }
-        public ObservableCollection<DistributionFunction> Distributions { get; }
+        public Dictionary<Type, Action> DialogViewModels { get; }
+
+        public DistributionFunction SelectedDistribution
+        {
+            get => _selectedDistribution;
+            set
+            {
+                _selectedDistribution = value;
+                OnPropertyChanged("SelectedDistribution");
+            }
+        }
+
+        public Dictionary<Type, DistributionFunction> Distributions { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public bool IsCustomSampler
         {
-            get => isCustomSampler;
+            get => _isCustomSampler;
             set
             {
-                isCustomSampler = value;
+                _isCustomSampler = value;
                 OnPropertyChanged("IsCustomSampler");
             }
         }
 
         public bool IsConfigurable
         {
-            get => isConfigurable;
+            get => _isConfigurable;
             set
             {
-                isConfigurable = value;
+                _isConfigurable = value;
                 OnPropertyChanged("IsConfigurable");
             }
         }
@@ -72,6 +91,16 @@ namespace RandomNumberGenerationAndModeling.ViewModel
         public DelegateCommand GenerateCommand { get; }
         public DelegateCommand ConfigureMethodCommand { get; }
         public DelegateCommand ConfigureDistributionCommand { get; }
+
+        public ObservableCollection<DistributionFunction> CurrentDistributions
+        {
+            get => _currentDistributions;
+            set
+            {
+                _currentDistributions = value; 
+                OnPropertyChanged("CurrentDistributions");
+            }
+        }
 
         public ApplicationViewModel()
         {
@@ -86,7 +115,7 @@ namespace RandomNumberGenerationAndModeling.ViewModel
                 new LotterySampler()
             };
 
-            GeneratorViewModels = new Dictionary<Type, Action>()
+            DialogViewModels = new Dictionary<Type, Action>()
             {
                 {
                     typeof(CongruentialGenerator),
@@ -96,12 +125,20 @@ namespace RandomNumberGenerationAndModeling.ViewModel
                 {typeof(CltSampler), () => new CltSamplerDialogView((CltSampler) SelectedGenerator).ShowDialog()},
                 {typeof(BoxMullerSampler), () => new  BoxMullerSamplerDialogView((BoxMullerSampler) SelectedGenerator).ShowDialog()},
                 {typeof(NeumannSampler), () => new NeumannSamplerDialogView((NeumannSampler) SelectedGenerator).ShowDialog()},
-                {typeof(InverseTransformSampler), () => new InverseTransformSamplerDialogView((InverseTransformSampler) SelectedGenerator).ShowDialog()}
+                {typeof(InverseTransformSampler), () => new InverseTransformSamplerDialogView((InverseTransformSampler) SelectedGenerator).ShowDialog()},
+                {typeof(GeometricDistribution), () => new GeometricDistributionDialogView((GeometricDistribution) SelectedDistribution).ShowDialog()},
+                {typeof(InverseRayleighFunction), () => new InverseRayleighFunctionDialogView((InverseRayleighFunction) SelectedDistribution).ShowDialog()},
+                {typeof(ProbabilityDensityFunctionA), () => new ProbabilityDensityFunctionAView((ProbabilityDensityFunctionA) SelectedDistribution).ShowDialog()}
             };
-            
-            SelectedGenerator = Generators[0];
 
-            Distributions = new ObservableCollection<DistributionFunction>();
+            Distributions = new Dictionary<Type, DistributionFunction>()
+            {
+                {typeof(LotterySampler), new GeometricDistribution(30, (float) 0.4)},
+                {typeof(InverseTransformSampler), new InverseRayleighFunction(934)},
+                {typeof(NeumannSampler), new ProbabilityDensityFunctionA(234, 6453, 23)}
+            };
+
+            SelectedGenerator = Generators[0];
 
             GenerateCommand = new DelegateCommand(() => GeneratedNumbers = SelectedGenerator.Generate().Cast<float>().ToList());
             ConfigureMethodCommand = new DelegateCommand(ConfigureMethod);
@@ -110,12 +147,12 @@ namespace RandomNumberGenerationAndModeling.ViewModel
 
         public void ConfigureMethod()
         {
-            GeneratorViewModels[SelectedGenerator.GetType()].Invoke();
+            DialogViewModels[SelectedGenerator.GetType()].Invoke();
         }
 
         public void ConfigureDistribution()
         {
-
+            DialogViewModels[SelectedDistribution.GetType()].Invoke();
         }
 
         private void OnPropertyChanged([CallerMemberName] string prop = "")
