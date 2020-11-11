@@ -4,19 +4,19 @@ namespace RandomNumberGenerationAndModeling.Model
 {
     public class InverseRayleighFunction : DistributionFunction
     {
-        public float VariableS { get; set; }
-        public override float MathExpectation => (float) Math.Sqrt(Math.PI / 2) * StandardDeviation;
-        public override float Variance => (2 - (float) Math.PI / 2) * StandardDeviation * StandardDeviation;
-        public override float StandardDeviation => VariableS;
+        public double VariableS { get; set; }
+        public override double MathExpectation => Math.Sqrt(Math.PI / 2) * StandardDeviation;
+        public override double Variance => (2 - Math.PI / 2) * StandardDeviation * StandardDeviation;
+        public override double StandardDeviation => VariableS;
 
-        public InverseRayleighFunction(float variableS)
+        public InverseRayleighFunction(double variableS)
         {
             VariableS = variableS;
         }
 
-        public override float GetValue(float x)
+        public override double GetValue(double x)
         {
-            return VariableS * (float) Math.Sqrt(-2 * (float) Math.Log(1 - x, Math.E));
+            return VariableS * Math.Sqrt(-2 * Math.Log(1 - x, Math.E));
         }
 
         public override string ToString()

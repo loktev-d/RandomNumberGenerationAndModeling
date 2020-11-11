@@ -9,6 +9,8 @@ using Prism.Commands;
 using RandomNumberGenerationAndModeling.Model;
 using System.Linq;
 using System.Windows;
+using LiveCharts;
+using LiveCharts.Wpf;
 using RandomNumberGenerationAndModeling.View;
 
 namespace RandomNumberGenerationAndModeling.ViewModel
@@ -20,8 +22,17 @@ namespace RandomNumberGenerationAndModeling.ViewModel
         private bool _isCustomSampler;
         private bool _isConfigurable;
         private ObservableCollection<DistributionFunction> _currentDistributions;
+        private SeriesCollection _generatedNumbers;
 
-        private IEnumerable GeneratedNumbers { get; set; }
+        public SeriesCollection GeneratedNumbers
+        {
+            get => _generatedNumbers;
+            set
+            {
+                _generatedNumbers = value;
+                OnPropertyChanged("GeneratedNumbers");
+            }
+        }
 
         public RandomGenerator SelectedGenerator
         {
@@ -102,6 +113,8 @@ namespace RandomNumberGenerationAndModeling.ViewModel
             }
         }
 
+        public SampleEstimator Estimator { get; }
+
         public ApplicationViewModel()
         {
             Generators = new ObservableCollection<RandomGenerator>()
@@ -133,16 +146,19 @@ namespace RandomNumberGenerationAndModeling.ViewModel
 
             Distributions = new Dictionary<Type, DistributionFunction>()
             {
-                {typeof(LotterySampler), new GeometricDistribution(30, (float) 0.4)},
+                {typeof(LotterySampler), new GeometricDistribution(30, 0.4)},
                 {typeof(InverseTransformSampler), new InverseRayleighFunction(934)},
                 {typeof(NeumannSampler), new ProbabilityDensityFunctionA(234, 6453, 23)}
             };
 
             SelectedGenerator = Generators[0];
 
-            GenerateCommand = new DelegateCommand(() => GeneratedNumbers = SelectedGenerator.Generate().Cast<float>().ToList());
+            GenerateCommand = new DelegateCommand(Generate);
             ConfigureMethodCommand = new DelegateCommand(ConfigureMethod);
             ConfigureDistributionCommand = new DelegateCommand(ConfigureDistribution);
+
+            GeneratedNumbers = new SeriesCollection();
+            Estimator = new SampleEstimator();
         }
 
         public void ConfigureMethod()
@@ -153,6 +169,29 @@ namespace RandomNumberGenerationAndModeling.ViewModel
         public void ConfigureDistribution()
         {
             DialogViewModels[SelectedDistribution.GetType()].Invoke();
+        }
+
+        public void Generate()
+        {
+            if (SelectedGenerator is CustomSampler<DistributionFunction>)
+            {
+                ((CustomSampler<DistributionFunction>) SelectedGenerator).Distribution = SelectedDistribution;
+            }
+            if (SelectedGenerator is CustomSampler<DiscreteDistribution>)
+            {
+                ((CustomSampler<DiscreteDistribution>)SelectedGenerator).Distribution = (DiscreteDistribution) SelectedDistribution;
+            }
+            if (SelectedGenerator is CustomSampler<ProbabilityDensityFunction>)
+            {
+                ((CustomSampler<ProbabilityDensityFunction>)SelectedGenerator).Distribution = (ProbabilityDensityFunction) SelectedDistribution;
+            }
+
+            IEnumerable<double> numbers = SelectedGenerator.Generate();
+            GeneratedNumbers.Clear();
+            ColumnSeries generatedNumbersColumns = new ColumnSeries();
+            generatedNumbersColumns.Values = new ChartValues<double>(numbers);
+            GeneratedNumbers.Add(generatedNumbersColumns);
+            Estimator.EstimateSample(numbers);
         }
 
         private void OnPropertyChanged([CallerMemberName] string prop = "")

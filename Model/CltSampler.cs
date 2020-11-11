@@ -7,21 +7,21 @@ namespace RandomNumberGenerationAndModeling.Model
     {
         public int PopulationSize { get; set; }
 
-        public CltSampler(float shift, float scale, int length, int  populationSize) : base(shift, scale, length)
+        public CltSampler(double shift, double scale, int length, int populationSize) : base(shift, scale, length)
         {
             PopulationSize = populationSize;
         }
 
-        protected override IEnumerable<float> Normalize()
+        protected override IEnumerable<double> Normalize()
         {
             for (var i = 0; i < Length; i++)
             {
-                float randomNumber = 0;
+                double randomNumber = 0;
                 for (var j = 0; j < PopulationSize; j++) 
                 {
                     randomNumber += GenerateRandomNumber();
                 }
-                yield return (randomNumber - PopulationSize / 2) / (float) Math.Sqrt(PopulationSize / 12);
+                yield return (randomNumber - PopulationSize / 2) / Math.Sqrt(PopulationSize / 12);
             }
         }
 

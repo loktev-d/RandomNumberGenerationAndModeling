@@ -5,17 +5,17 @@ namespace RandomNumberGenerationAndModeling.Model
 {
     public class BoxMullerSampler : NormalSampler
     {
-        public BoxMullerSampler(float shift, float scale, int length) : base(shift, scale, length)
+        public BoxMullerSampler(double shift, double scale, int length) : base(shift, scale, length)
         {
 
         }
 
-        protected override IEnumerable<float> Normalize()
+        protected override IEnumerable<double> Normalize()
         {
             for (var i = 0; i < Length; i++)
             {
-                yield return (float) Math.Sqrt(-2 * (float) Math.Log(GenerateRandomNumber(), Math.E)) *
-                             (float) Math.Cos(2 * Math.PI * GenerateRandomNumber());
+                yield return Math.Sqrt(-2 * Math.Log(GenerateRandomNumber(), Math.E)) *
+                             Math.Cos(2 * Math.PI * GenerateRandomNumber());
             }
         }
 

@@ -1,28 +1,29 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace RandomNumberGenerationAndModeling.Model
 {
     public class NeumannSampler : CustomSampler<ProbabilityDensityFunction>
     {
-        public float FirstHorizontalBound { get; set; }
-        public float SecondHorizontalBound { get; set; }
+        public double FirstHorizontalBound { get; set; }
+        public double SecondHorizontalBound { get; set; }
 
-        public NeumannSampler(float firstBound, float secondBound, int length)
+        public NeumannSampler(double firstBound, double secondBound, int length)
             : base(length)
         {
             FirstHorizontalBound = firstBound;
             SecondHorizontalBound = secondBound;
         }
 
-        public NeumannSampler(float firstBound, float secondBound, int length, ProbabilityDensityFunction function)
+        public NeumannSampler(double firstBound, double secondBound, int length, ProbabilityDensityFunction function)
             : base(length, function)
         {
             FirstHorizontalBound = firstBound;
             SecondHorizontalBound = secondBound;
         }
 
-        public override IEnumerable Generate()
+        public override IEnumerable<double> Generate()
         {
             for (var i = 0; i < Length; i++)
             {

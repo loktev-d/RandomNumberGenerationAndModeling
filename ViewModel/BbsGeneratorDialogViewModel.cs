@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using RandomNumberGenerationAndModeling.Model;
 
@@ -7,8 +6,8 @@ namespace RandomNumberGenerationAndModeling.ViewModel
 {
     public class BbsGeneratorDialogViewModel: GeneratorDialogViewModel<BbsGenerator>
     {
-        public long Modulus { get; set; }
-        public long Seed { get; set; }
+        public double Modulus { get; set; }
+        public double Seed { get; set; }
 
         public BbsGeneratorDialogViewModel(BbsGenerator bbsGenerator, Window dialogView) : base(bbsGenerator, dialogView)
         {

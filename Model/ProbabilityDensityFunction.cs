@@ -4,6 +4,6 @@ namespace RandomNumberGenerationAndModeling.Model
 {
     public abstract class ProbabilityDensityFunction : DistributionFunction
     {
-        public abstract float UpperBound { get; }
+        public abstract double UpperBound { get; }
     }
 }

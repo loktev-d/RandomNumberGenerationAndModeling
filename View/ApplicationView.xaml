@@ -30,7 +30,7 @@
                     IsEnabled="{Binding IsCustomSampler}">Configure...</Button>
             <Button Height="20" Width="60" Margin="10 0 10 0" Command="{Binding GenerateCommand}">Generate</Button>
         </WrapPanel>
-        <lvc:CartesianChart Grid.Row="1"></lvc:CartesianChart>
+        <lvc:CartesianChart Grid.Row="1" Margin="5 5 5 5" Series="{Binding GeneratedNumbers}" ></lvc:CartesianChart>
         <Grid Grid.Row="1" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
@@ -38,15 +38,33 @@
             </Grid.RowDefinitions>
             <Border BorderBrush="Gainsboro" BorderThickness="1 0 1 1"></Border>
             <StackPanel Margin="10 10 10 10">
-                <Label>Expectation:</Label>
-                <Label>Variance:</Label>
-                <Label>Standard deviation:</Label>
+                <WrapPanel>
+                    <Label>Expectation:</Label>
+                    <Label Content="{Binding SelectedGenerator.MathExpectation}"></Label>
+                </WrapPanel>
+                <WrapPanel>
+                    <Label>Variance:</Label>
+                    <Label Content="{Binding SelectedGenerator.Variance}"></Label>
+                </WrapPanel>
+                <WrapPanel>
+                    <Label>Standard deviation:</Label>
+                    <Label Content="{Binding SelectedGenerator.StandardDeviation}"></Label>
+                </WrapPanel>
             </StackPanel>
             <Border Grid.Row="1" BorderBrush="Gainsboro" BorderThickness="1 0 1 1"></Border>
             <StackPanel Grid.Row="1" Margin="10 10 10 10">
-                <Label>Sample expectation:</Label>
-                <Label>Sample variance:</Label>
-                <Label>Sample standard deviation:</Label>
+                <WrapPanel>
+                    <Label>Sample expectation:</Label>
+                    <Label Content="{Binding Estimator.SampleMathExpectation}"></Label>
+                </WrapPanel>
+                <WrapPanel>
+                    <Label>Sample variance:</Label>
+                    <Label Content="{Binding Estimator.SampleVariance}"></Label>
+                </WrapPanel>
+                <WrapPanel>
+                    <Label>Sample standard deviation:</Label>
+                    <Label Content="{Binding Estimator.SampleStandardDeviation}"></Label>
+                </WrapPanel>
             </StackPanel>
         </Grid>
         <Border Grid.ColumnSpan="2" BorderBrush="Gainsboro" BorderThickness="0 0 0 1"></Border>

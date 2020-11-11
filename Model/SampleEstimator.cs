@@ -1,14 +1,47 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace RandomNumberGenerationAndModeling.Model
 {
-    public class SampleEstimator
+    public class SampleEstimator : INotifyPropertyChanged
     {
-        public float SampleMathExpectation { get; protected set; }
-        public float SampleVariance { get; protected set; }
-        public float SampleStandardDeviation { get; protected set; }
+        private double _sampleMathExpectation;
+        private double _sampleVariance;
+        private double _sampleStandardDeviation;
+
+        public double SampleMathExpectation
+        {
+            get => _sampleMathExpectation;
+            protected set
+            {
+                _sampleMathExpectation = value;
+                OnPropertyChanged("SampleMathExpectation");
+            }
+        }
+
+        public double SampleVariance
+        {
+            get => _sampleVariance;
+            protected set
+            {
+                _sampleVariance = value;
+                OnPropertyChanged("SampleVariance");
+            }
+        }
+
+        public double SampleStandardDeviation
+        {
+            get => _sampleStandardDeviation;
+            protected set
+            {
+                _sampleStandardDeviation = value;
+                OnPropertyChanged("SampleStandardDeviation");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public SampleEstimator()
         {
@@ -17,20 +50,25 @@ namespace RandomNumberGenerationAndModeling.Model
             SampleStandardDeviation = 0;
         }
 
-        public void EstimateSample(IEnumerable generatedNumbers)
+        public void EstimateSample(IEnumerable<double> generatedNumbers)
         {
-            List<float> sampleNumbers = (List<float>) generatedNumbers;
+            List<double> sampleNumbers = new List<double>(generatedNumbers);
 
             foreach (var sampleNumber in sampleNumbers)
             {
                 SampleMathExpectation += sampleNumber / sampleNumbers.Count;
-                SampleVariance += (float) Math.Pow(SampleVariance, 2) / sampleNumbers.Count;
+                SampleVariance += Math.Pow(SampleVariance, 2) / sampleNumbers.Count;
             }
 
-            SampleVariance = (SampleVariance - (float) Math.Pow(SampleMathExpectation, 2)) * sampleNumbers.Count /
+            SampleVariance = (SampleVariance - Math.Pow(SampleMathExpectation, 2)) * sampleNumbers.Count /
                              (sampleNumbers.Count - 1);
 
-            SampleStandardDeviation = (float) Math.Sqrt(SampleVariance);
+            SampleStandardDeviation = Math.Sqrt(SampleVariance);
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string prop = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
     }
 }

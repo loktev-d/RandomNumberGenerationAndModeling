@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using RandomNumberGenerationAndModeling.Model;
 
@@ -7,9 +6,9 @@ namespace RandomNumberGenerationAndModeling.ViewModel
 {
     public class ProbabilityDensityFunctionADialogViewModel : DistributionDialogViewModel<ProbabilityDensityFunctionA>
     {
-        public float VariableA { get; set; }
-        public float VariableC { get; set; }
-        public float VariableM { get; set; }
+        public double VariableA { get; set; }
+        public double VariableC { get; set; }
+        public double VariableM { get; set; }
 
         public ProbabilityDensityFunctionADialogViewModel(ProbabilityDensityFunctionA densityFunctionA, Window dialogView)
             : base(densityFunctionA, dialogView)

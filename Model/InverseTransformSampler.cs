@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace RandomNumberGenerationAndModeling.Model
 {
@@ -13,7 +14,7 @@ namespace RandomNumberGenerationAndModeling.Model
         {
         }
 
-        public override IEnumerable Generate()
+        public override IEnumerable<double> Generate()
         {
             for (var i = 0; i < Length; i++)
             {

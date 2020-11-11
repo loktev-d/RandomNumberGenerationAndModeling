@@ -13,9 +13,9 @@ namespace RandomNumberGenerationAndModeling.Model
             Length = length;
         }
 
-        protected float GenerateRandomNumber()
+        protected double GenerateRandomNumber()
         {
-            return (float) Generator.NextDouble();
+            return Generator.NextDouble();
         }
     }
 }

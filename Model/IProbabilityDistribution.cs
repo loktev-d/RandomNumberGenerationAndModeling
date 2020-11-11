@@ -4,8 +4,8 @@ namespace RandomNumberGenerationAndModeling.Model
 {
     public interface IProbabilityDistribution
     {
-        public float MathExpectation { get; }
-        public float Variance { get; }
-        public float StandardDeviation { get; }
+        public double MathExpectation { get; }
+        public double Variance { get; }
+        public double StandardDeviation { get; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using RandomNumberGenerationAndModeling.Model;
 
@@ -7,8 +6,8 @@ namespace RandomNumberGenerationAndModeling.ViewModel
 {
     public class NeumannSamplerDialogViewModel : GeneratorDialogViewModel<NeumannSampler>
     {
-        public float FirstBound { get; set; }
-        public float SecondBound { get; set; }
+        public double FirstBound { get; set; }
+        public double SecondBound { get; set; }
 
         public NeumannSamplerDialogViewModel(NeumannSampler neumannSampler, Window dialogView) : base(neumannSampler, dialogView)
         {

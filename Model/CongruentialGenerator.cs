@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace RandomNumberGenerationAndModeling.Model
 {
     public class CongruentialGenerator : UniformGenerator
     {
-        public long Multiplier { get; set; }
-        public long Increment { get; set; }
+        public double Multiplier { get; set; }
+        public double Increment { get; set; }
 
         public CongruentialGenerator(long modulus, long seed, int length, long multiplier, long increment)
             : base(modulus, seed, length)
@@ -15,7 +16,7 @@ namespace RandomNumberGenerationAndModeling.Model
             Increment = increment;
         }
 
-        public override IEnumerable Generate()
+        public override IEnumerable<double> Generate()
         {
             for (var i = 0; i < Length; i++)
             {

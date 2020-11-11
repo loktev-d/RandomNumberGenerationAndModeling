@@ -6,21 +6,21 @@ namespace RandomNumberGenerationAndModeling.Model
 {
     public abstract class NormalSampler : RandomSampler
     {
-        public float Shift { get; set; }
-        public float Scale { get; set; }
-        public override float MathExpectation => Shift;
-        public override float Variance => (float) Math.Pow(Scale, 2);
-        public override float StandardDeviation => Scale;
+        public double Shift { get; set; }
+        public double Scale { get; set; }
+        public override double MathExpectation => Shift;
+        public override double Variance => (float) Math.Pow(Scale, 2);
+        public override double StandardDeviation => Scale;
 
-        public NormalSampler(float shift, float scale, int length) : base(length)
+        public NormalSampler(double shift, double scale, int length) : base(length)
         {
             Shift = shift;
             Scale = scale;
         }
 
-        protected abstract IEnumerable<float> Normalize();
+        protected abstract IEnumerable<double> Normalize();
 
-        public override IEnumerable Generate()
+        public override IEnumerable<double> Generate()
         {
             var normalizedNumbers = Normalize();
 
