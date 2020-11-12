@@ -22,17 +22,11 @@ namespace RandomNumberGenerationAndModeling.ViewModel
         private bool _isCustomSampler;
         private bool _isConfigurable;
         private ObservableCollection<DistributionFunction> _currentDistributions;
-        private SeriesCollection _generatedNumbers;
+        private double _mathExpectation;
+        private double _variance;
+        private double _standardDeviation;
 
-        public SeriesCollection GeneratedNumbers
-        {
-            get => _generatedNumbers;
-            set
-            {
-                _generatedNumbers = value;
-                OnPropertyChanged("GeneratedNumbers");
-            }
-        }
+        public SeriesCollection GeneratedNumbers { get; set; }
 
         public RandomGenerator SelectedGenerator
         {
@@ -115,6 +109,36 @@ namespace RandomNumberGenerationAndModeling.ViewModel
 
         public SampleEstimator Estimator { get; }
 
+        public double MathExpectation
+        {
+            get => _mathExpectation;
+            set
+            {
+                _mathExpectation = value;
+                OnPropertyChanged("MathExpectation");
+            }
+        }
+
+        public double Variance
+        {
+            get => _variance;
+            set
+            {
+                _variance = value;
+                OnPropertyChanged("Variance");
+            }
+        }
+
+        public double StandardDeviation
+        {
+            get => _standardDeviation;
+            set
+            {
+                _standardDeviation = value;
+                OnPropertyChanged("StandardDeviation");
+            }
+        }
+
         public ApplicationViewModel()
         {
             Generators = new ObservableCollection<RandomGenerator>()
@@ -157,7 +181,11 @@ namespace RandomNumberGenerationAndModeling.ViewModel
             ConfigureMethodCommand = new DelegateCommand(ConfigureMethod);
             ConfigureDistributionCommand = new DelegateCommand(ConfigureDistribution);
 
-            GeneratedNumbers = new SeriesCollection();
+            GeneratedNumbers = new SeriesCollection()
+            {
+                new ColumnSeries()
+            };
+
             Estimator = new SampleEstimator();
         }
 
@@ -186,11 +214,12 @@ namespace RandomNumberGenerationAndModeling.ViewModel
                 ((CustomSampler<ProbabilityDensityFunction>)SelectedGenerator).Distribution = (ProbabilityDensityFunction) SelectedDistribution;
             }
 
+            MathExpectation = SelectedGenerator.MathExpectation;
+            Variance = SelectedGenerator.Variance;
+            StandardDeviation = SelectedGenerator.StandardDeviation;
+
             IEnumerable<double> numbers = SelectedGenerator.Generate();
-            GeneratedNumbers.Clear();
-            ColumnSeries generatedNumbersColumns = new ColumnSeries();
-            generatedNumbersColumns.Values = new ChartValues<double>(numbers);
-            GeneratedNumbers.Add(generatedNumbersColumns);
+            GeneratedNumbers[0].Values = new ChartValues<double>(numbers);
             Estimator.EstimateSample(numbers);
         }
 

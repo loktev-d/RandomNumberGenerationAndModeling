@@ -40,15 +40,15 @@
             <StackPanel Margin="10 10 10 10">
                 <WrapPanel>
                     <Label>Expectation:</Label>
-                    <Label Content="{Binding SelectedGenerator.MathExpectation}"></Label>
+                    <Label Content="{Binding MathExpectation}"></Label>
                 </WrapPanel>
                 <WrapPanel>
                     <Label>Variance:</Label>
-                    <Label Content="{Binding SelectedGenerator.Variance}"></Label>
+                    <Label Content="{Binding Variance}"></Label>
                 </WrapPanel>
                 <WrapPanel>
                     <Label>Standard deviation:</Label>
-                    <Label Content="{Binding SelectedGenerator.StandardDeviation}"></Label>
+                    <Label Content="{Binding StandardDeviation}"></Label>
                 </WrapPanel>
             </StackPanel>
             <Border Grid.Row="1" BorderBrush="Gainsboro" BorderThickness="1 0 1 1"></Border>
