@@ -11,6 +11,9 @@ namespace RandomNumberGenerationAndModeling.Model
         public abstract double Variance { get; }
         public abstract double StandardDeviation { get; }
 
+        public virtual double FirstHorizontalBound => MathExpectation - StandardDeviation;
+        public virtual double SecondHorizontalBound => MathExpectation + StandardDeviation;
+
         public RandomGenerator(int length)
         {
             Length = length;

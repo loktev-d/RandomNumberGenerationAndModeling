@@ -52,18 +52,26 @@ namespace RandomNumberGenerationAndModeling.Model
 
         public void EstimateSample(IEnumerable<double> generatedNumbers)
         {
+            double sampleMathExpectation = 0;
+            double sampleVariance = 0;
+            double sampleStandardDeviation = 0;
+
             List<double> sampleNumbers = new List<double>(generatedNumbers);
 
             foreach (var sampleNumber in sampleNumbers)
             {
-                SampleMathExpectation += sampleNumber / sampleNumbers.Count;
-                SampleVariance += Math.Pow(SampleVariance, 2) / sampleNumbers.Count;
+                sampleMathExpectation += sampleNumber / sampleNumbers.Count;
+                sampleVariance += Math.Pow(sampleNumber, 2) / sampleNumbers.Count;
             }
 
-            SampleVariance = (SampleVariance - Math.Pow(SampleMathExpectation, 2)) * sampleNumbers.Count /
+            sampleVariance = (sampleVariance - Math.Pow(sampleMathExpectation, 2)) * sampleNumbers.Count /
                              (sampleNumbers.Count - 1);
 
-            SampleStandardDeviation = Math.Sqrt(SampleVariance);
+            sampleStandardDeviation = Math.Sqrt(sampleVariance);
+
+            SampleMathExpectation = sampleMathExpectation;
+            SampleVariance = sampleVariance;
+            SampleStandardDeviation = sampleStandardDeviation;
         }
 
         private void OnPropertyChanged([CallerMemberName] string prop = "")

@@ -6,8 +6,8 @@ namespace RandomNumberGenerationAndModeling.Model
 {
     public class NeumannSampler : CustomSampler<ProbabilityDensityFunction>
     {
-        public double FirstHorizontalBound { get; set; }
-        public double SecondHorizontalBound { get; set; }
+        public new double FirstHorizontalBound { get; set; }
+        public new double SecondHorizontalBound { get; set; }
 
         public NeumannSampler(double firstBound, double secondBound, int length)
             : base(length)

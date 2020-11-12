@@ -10,7 +10,6 @@ using RandomNumberGenerationAndModeling.Model;
 using System.Linq;
 using System.Windows;
 using LiveCharts;
-using LiveCharts.Wpf;
 using RandomNumberGenerationAndModeling.View;
 
 namespace RandomNumberGenerationAndModeling.ViewModel
@@ -25,8 +24,18 @@ namespace RandomNumberGenerationAndModeling.ViewModel
         private double _mathExpectation;
         private double _variance;
         private double _standardDeviation;
+        private ChartValues<double> _generatedNumbers;
+        private ChartValues<int> _frequencies;
 
-        public SeriesCollection GeneratedNumbers { get; set; }
+        public ChartValues<double> GeneratedNumbers
+        {
+            get => _generatedNumbers;
+            set
+            {
+                _generatedNumbers = value;
+                OnPropertyChanged("GeneratedNumbers");
+            }
+        }
 
         public RandomGenerator SelectedGenerator
         {
@@ -118,7 +127,6 @@ namespace RandomNumberGenerationAndModeling.ViewModel
                 OnPropertyChanged("MathExpectation");
             }
         }
-
         public double Variance
         {
             get => _variance;
@@ -128,7 +136,6 @@ namespace RandomNumberGenerationAndModeling.ViewModel
                 OnPropertyChanged("Variance");
             }
         }
-
         public double StandardDeviation
         {
             get => _standardDeviation;
@@ -139,17 +146,33 @@ namespace RandomNumberGenerationAndModeling.ViewModel
             }
         }
 
+        public int SampleSize { get; set; }
+        public int BinsCount { get; set; }
+
+        public ChartValues<int> Frequencies
+        {
+            get => _frequencies;
+            set
+            {
+                _frequencies = value;
+                OnPropertyChanged("Frequencies");
+            }
+        }
+
         public ApplicationViewModel()
         {
+            SampleSize = 70;
+            BinsCount = 10;
+
             Generators = new ObservableCollection<RandomGenerator>()
             {
-                new CongruentialGenerator(34568932, 28934, 30,456,10345),
-                new BbsGenerator(1020945, 3247,30),
-                new CltSampler(75,54,30,12),
-                new BoxMullerSampler(865, 43, 30),
-                new NeumannSampler(20, 100,30),
-                new InverseTransformSampler(30),
-                new LotterySampler()
+                new CongruentialGenerator(1000, 28934, 1234, 456, SampleSize),
+                new BbsGenerator(1000, 3247, SampleSize),
+                new CltSampler(75, 54, 15, SampleSize),
+                new BoxMullerSampler(865, 43, SampleSize),
+                new NeumannSampler(20, 100, SampleSize),
+                new InverseTransformSampler(SampleSize),
+                new LotterySampler(SampleSize)
             };
 
             DialogViewModels = new Dictionary<Type, Action>()
@@ -162,7 +185,6 @@ namespace RandomNumberGenerationAndModeling.ViewModel
                 {typeof(CltSampler), () => new CltSamplerDialogView((CltSampler) SelectedGenerator).ShowDialog()},
                 {typeof(BoxMullerSampler), () => new  BoxMullerSamplerDialogView((BoxMullerSampler) SelectedGenerator).ShowDialog()},
                 {typeof(NeumannSampler), () => new NeumannSamplerDialogView((NeumannSampler) SelectedGenerator).ShowDialog()},
-                {typeof(InverseTransformSampler), () => new InverseTransformSamplerDialogView((InverseTransformSampler) SelectedGenerator).ShowDialog()},
                 {typeof(GeometricDistribution), () => new GeometricDistributionDialogView((GeometricDistribution) SelectedDistribution).ShowDialog()},
                 {typeof(InverseRayleighFunction), () => new InverseRayleighFunctionDialogView((InverseRayleighFunction) SelectedDistribution).ShowDialog()},
                 {typeof(ProbabilityDensityFunctionA), () => new ProbabilityDensityFunctionAView((ProbabilityDensityFunctionA) SelectedDistribution).ShowDialog()}
@@ -170,21 +192,16 @@ namespace RandomNumberGenerationAndModeling.ViewModel
 
             Distributions = new Dictionary<Type, DistributionFunction>()
             {
-                {typeof(LotterySampler), new GeometricDistribution(30, 0.4)},
+                {typeof(LotterySampler), new GeometricDistribution(0.4)},
                 {typeof(InverseTransformSampler), new InverseRayleighFunction(934)},
                 {typeof(NeumannSampler), new ProbabilityDensityFunctionA(234, 6453, 23)}
             };
 
             SelectedGenerator = Generators[0];
 
-            GenerateCommand = new DelegateCommand(Generate);
+            GenerateCommand = new DelegateCommand(Execute);
             ConfigureMethodCommand = new DelegateCommand(ConfigureMethod);
             ConfigureDistributionCommand = new DelegateCommand(ConfigureDistribution);
-
-            GeneratedNumbers = new SeriesCollection()
-            {
-                new ColumnSeries()
-            };
 
             Estimator = new SampleEstimator();
         }
@@ -199,7 +216,7 @@ namespace RandomNumberGenerationAndModeling.ViewModel
             DialogViewModels[SelectedDistribution.GetType()].Invoke();
         }
 
-        public void Generate()
+        public void Execute()
         {
             if (SelectedGenerator is CustomSampler<DistributionFunction>)
             {
@@ -218,9 +235,15 @@ namespace RandomNumberGenerationAndModeling.ViewModel
             Variance = SelectedGenerator.Variance;
             StandardDeviation = SelectedGenerator.StandardDeviation;
 
-            IEnumerable<double> numbers = SelectedGenerator.Generate();
-            GeneratedNumbers[0].Values = new ChartValues<double>(numbers);
+            SelectedGenerator.Length = SampleSize;
+
+            double[] numbers = SelectedGenerator.Generate().ToArray();
+            GeneratedNumbers = new ChartValues<double>(numbers);
             Estimator.EstimateSample(numbers);
+
+            IEnumerable<int> frequencies = Histogram.CountFrequencies(numbers, SelectedGenerator.FirstHorizontalBound,
+                SelectedGenerator.SecondHorizontalBound, BinsCount);
+            Frequencies = new ChartValues<int>(frequencies);
         }
 
         private void OnPropertyChanged([CallerMemberName] string prop = "")

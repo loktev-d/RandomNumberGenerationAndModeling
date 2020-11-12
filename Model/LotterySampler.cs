@@ -6,28 +6,21 @@ namespace RandomNumberGenerationAndModeling.Model
 {
     public class LotterySampler : CustomSampler<DiscreteDistribution>
     {
-        public new int Length
+        public LotterySampler(int length) : base(length)
         {
-            get
-            {
-                if (Distribution != null)
-                    return Distribution.Length;
-                return 0;
-            }
+            Length = length;
         }
 
-        public LotterySampler() : base(0)
+        public LotterySampler(DiscreteDistribution distribution, int length) : base(length)
         {
-
-        }
-
-        public LotterySampler(DiscreteDistribution distribution) : base(distribution.Length)
-        {
-
+            Length = length;
+            distribution.Length = length;
         }
 
         public override IEnumerable<double> Generate()
         {
+            Distribution.Length = Length;
+
             for (var i = 0; i < Length; i++)
             {
                 double range = 0;

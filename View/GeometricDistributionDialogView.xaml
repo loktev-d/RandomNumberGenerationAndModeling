@@ -13,14 +13,11 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Label Margin="10 0 10 0">Length:</Label>
-        <Label Grid.Row="1" Margin="10 0 10 0">Success probability:</Label>
-        <TextBox Grid.Column="1" Height="22" Width="150"  Margin="10 0 20 0" Text="{Binding Length}"></TextBox>
-        <TextBox Grid.Row="1" Grid.Column="1" Height="22" Width="150"  Margin="10 0 20 0" Text="{Binding SuccessProbability}"></TextBox>
-        <WrapPanel Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 30 0 10">
+        <Label Margin="10 0 10 0">Success probability:</Label>
+        <TextBox Grid.Column="1" Height="22" Width="150"  Margin="10 0 20 0" Text="{Binding SuccessProbability}"></TextBox>
+        <WrapPanel Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 30 0 10">
             <Button Height="20" Width="70" Margin="10 0 10 0" IsDefault="True" Command="{Binding ConfigureCommand}">OK</Button>
             <Button Height="20" Width="70" Margin="10 0 10 0" IsCancel="True">Cancel</Button>
         </WrapPanel>

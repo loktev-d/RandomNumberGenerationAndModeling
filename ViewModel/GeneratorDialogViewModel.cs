@@ -8,12 +8,10 @@ namespace RandomNumberGenerationAndModeling.ViewModel
     public abstract class GeneratorDialogViewModel<T> : ConfigurationDialogViewModel where T : RandomGenerator
     {
         public T Generator { get; set; }
-        public int Length { get; set; }
 
         public GeneratorDialogViewModel(T generator, Window dialogView) : base(dialogView)
         {
             Generator = generator;
-            Length = generator.Length;
         }
     }
 }

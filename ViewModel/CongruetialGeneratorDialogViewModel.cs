@@ -22,7 +22,6 @@ namespace RandomNumberGenerationAndModeling.ViewModel
 
         public override void Configure()
         {
-            Generator.Length = Length;
             Generator.Modulus = Modulus; 
             Generator.Seed = Seed;
             Generator.Multiplier = Multiplier;

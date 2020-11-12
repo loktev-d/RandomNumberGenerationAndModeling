@@ -7,7 +7,7 @@ namespace RandomNumberGenerationAndModeling.Model
     {
         public int PopulationSize { get; set; }
 
-        public CltSampler(double shift, double scale, int length, int populationSize) : base(shift, scale, length)
+        public CltSampler(double shift, double scale, int populationSize, int length) : base(shift, scale, length)
         {
             PopulationSize = populationSize;
         }

@@ -15,6 +15,11 @@ namespace RandomNumberGenerationAndModeling.Model
             SuccessProbability = successProbability;
         }
 
+        public GeometricDistribution(double successProbability)
+        {
+            SuccessProbability=successProbability;
+        }
+
         public override double GetValue(double x)
         {
             if (Length == x)

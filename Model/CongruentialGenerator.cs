@@ -9,7 +9,7 @@ namespace RandomNumberGenerationAndModeling.Model
         public double Multiplier { get; set; }
         public double Increment { get; set; }
 
-        public CongruentialGenerator(long modulus, long seed, int length, long multiplier, long increment)
+        public CongruentialGenerator(long modulus, long seed, long multiplier, long increment, int length)
             : base(modulus, seed, length)
         {
             Multiplier = multiplier;

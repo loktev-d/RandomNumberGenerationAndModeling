@@ -17,7 +17,6 @@ namespace RandomNumberGenerationAndModeling.ViewModel
 
         public override void Configure()
         {
-            Generator.Length = Length;
             Generator.Shift = Shift;
             Generator.Scale = Scale;
         }
