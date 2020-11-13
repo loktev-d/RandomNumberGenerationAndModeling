@@ -7,7 +7,7 @@ namespace RandomNumberGenerationAndModeling.Model
     {
         public double SuccessProbability { get; set; }
         public override double MathExpectation => 1 / SuccessProbability;
-        public override double Variance => (1 - SuccessProbability) / SuccessProbability * SuccessProbability;
+        public override double Variance => (1 - SuccessProbability) / (SuccessProbability * SuccessProbability);
         public override double StandardDeviation => Math.Sqrt(Variance);
 
         public GeometricDistribution(int length, double successProbability) : base(length)
@@ -17,7 +17,7 @@ namespace RandomNumberGenerationAndModeling.Model
 
         public GeometricDistribution(double successProbability)
         {
-            SuccessProbability=successProbability;
+            SuccessProbability = successProbability;
         }
 
         public override double GetValue(double x)

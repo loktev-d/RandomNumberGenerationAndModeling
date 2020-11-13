@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace RandomNumberGenerationAndModeling.Model
 {
     public static class Histogram
     {
-        public static IEnumerable<int> CountFrequencies(IEnumerable<double> values, double minValue, double maxValue, int binsCount)
+        public static IEnumerable<double> CountFrequencies(IEnumerable<double> values, int binsCount)
         {
-            var frequencies = new int[binsCount];
+            var frequencies = new double[binsCount];
+
+            var minValue = values.Min();
+            var maxValue = values.Max();
 
             var bin = (maxValue - minValue) / binsCount;
+
             foreach (var value in values)
             {
-                double range = 0;
+                double range = minValue;
                 for (var i = 0; i < binsCount; i++)
                 {
                     range += bin;

@@ -18,10 +18,11 @@ namespace RandomNumberGenerationAndModeling.Model
 
         public override IEnumerable<double> Generate()
         {
+            var value = Seed;
             for (var i = 0; i < Length; i++)
             {
-                Seed = (Multiplier * Seed + Increment) % Modulus;
-                yield return Seed;
+                value = (Multiplier * value + Increment) % Modulus;
+                yield return value;
             }
         }
 

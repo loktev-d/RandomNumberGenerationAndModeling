@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace RandomNumberGenerationAndModeling.Model
@@ -24,10 +23,11 @@ namespace RandomNumberGenerationAndModeling.Model
             for (var i = 0; i < Length; i++)
             {
                 double range = 0;
+                var value = GenerateRandomNumber();
                 for (var j = 1; j <= Length; j++)
                 {
                     range += Distribution.GetValue(j);
-                    if (GenerateRandomNumber() <= range)
+                    if (value <= range)
                     {
                         yield return j;
                         break;

@@ -10,9 +10,6 @@ namespace RandomNumberGenerationAndModeling.Model
         public override double Variance => Math.Pow(Modulus, 2) / 12;
         public override double StandardDeviation => Modulus / Math.Sqrt(12);
 
-        public override double FirstHorizontalBound => 0;
-        public override double SecondHorizontalBound => Modulus - 1;
-
         protected UniformGenerator(long modulus, long seed, int length) : base(length)
         {
             Modulus = modulus;

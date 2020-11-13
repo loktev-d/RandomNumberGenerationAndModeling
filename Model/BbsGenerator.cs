@@ -14,10 +14,11 @@ namespace RandomNumberGenerationAndModeling.Model
 
         public override IEnumerable<double> Generate()
         {
+            double value = Seed;
             for (var i = 0; i < Length; i++)
             {
-                Seed = Seed * Seed % Modulus;
-                yield return Seed;
+                value = (value * value) % Modulus;
+                yield return value;
             }
         }
 

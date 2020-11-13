@@ -7,15 +7,15 @@
         Title="Rayleigh Distribution" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
     <Grid HorizontalAlignment="Left">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="70"></ColumnDefinition>
+            <ColumnDefinition Width="60"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Label Margin="10 0 10 0">S value:</Label>
-        <TextBox Grid.Column="1" Height="22" Width="150"  Margin="10 0 20 0" Text="{Binding VariableS}"></TextBox>
+        <Label Margin="10 0 10 0">Scale:</Label>
+        <TextBox Grid.Column="1" Height="22" Width="150"  Margin="10 0 20 0" Text="{Binding Scale}"></TextBox>
         <WrapPanel Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 30 0 10">
             <Button Height="20" Width="70" Margin="10 0 10 0" IsDefault="True" Command="{Binding ConfigureCommand}">OK</Button>
             <Button Height="20" Width="70" Margin="10 0 10 0" IsCancel="True">Cancel</Button>

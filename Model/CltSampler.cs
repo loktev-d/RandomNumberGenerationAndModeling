@@ -21,7 +21,8 @@ namespace RandomNumberGenerationAndModeling.Model
                 {
                     randomNumber += GenerateRandomNumber();
                 }
-                yield return (randomNumber - PopulationSize / 2) / Math.Sqrt(PopulationSize / 12);
+
+                yield return (randomNumber - (double)PopulationSize / 2) / Math.Sqrt((double)PopulationSize / 12);
             }
         }
 

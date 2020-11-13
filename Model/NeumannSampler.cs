@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace RandomNumberGenerationAndModeling.Model
 {
     public class NeumannSampler : CustomSampler<ProbabilityDensityFunction>
     {
-        public new double FirstHorizontalBound { get; set; }
-        public new double SecondHorizontalBound { get; set; }
+        public double FirstHorizontalBound { get; set; }
+        public double SecondHorizontalBound { get; set; }
 
         public NeumannSampler(double firstBound, double secondBound, int length)
             : base(length)
@@ -32,7 +31,7 @@ namespace RandomNumberGenerationAndModeling.Model
 
                 var pointVerticalCoordinate = GenerateRandomNumber() * Distribution.UpperBound;
 
-                if (pointVerticalCoordinate < Distribution.GetValue(pointVerticalCoordinate))
+                if (pointVerticalCoordinate < Distribution.GetValue(pointHorizontalCoordinate))
                 {
                     yield return pointHorizontalCoordinate;
                 }

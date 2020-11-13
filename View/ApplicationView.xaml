@@ -43,9 +43,9 @@
                         <Label>Sample size:</Label>
                         <TextBox Height="22" Width="100" Text="{Binding SampleSize}"></TextBox>
                     </WrapPanel>
-                    <lvc:CartesianChart Grid.Row="1" Margin="5 5 5 5" >
+                    <lvc:CartesianChart Grid.Row="1" Margin="5 5 5 5">
                         <lvc:CartesianChart.Series>
-                            <lvc:ColumnSeries Values="{Binding GeneratedNumbers}" ColumnPadding="1"></lvc:ColumnSeries>
+                            <lvc:ColumnSeries Values="{Binding GeneratedNumbers}" ColumnPadding="1" MaxColumnWidth="Infinity"></lvc:ColumnSeries>
                         </lvc:CartesianChart.Series>
                     </lvc:CartesianChart>
                 </Grid>
@@ -62,7 +62,7 @@
                     </WrapPanel>
                     <lvc:CartesianChart Grid.Row="1" Margin="5 5 5 5">
                         <lvc:CartesianChart.Series>
-                            <lvc:ColumnSeries Values="{Binding Frequencies}" ColumnPadding="1"></lvc:ColumnSeries>
+                            <lvc:ColumnSeries Values="{Binding Frequencies}" ColumnPadding="-1" MaxColumnWidth="Infinity" Stroke="#7509E2" StrokeThickness="1" Fill="#a560e8"></lvc:ColumnSeries>
                         </lvc:CartesianChart.Series>
                     </lvc:CartesianChart>
                 </Grid>

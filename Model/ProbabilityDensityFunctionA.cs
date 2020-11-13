@@ -9,10 +9,12 @@ namespace RandomNumberGenerationAndModeling.Model
         public double VariableM { get; set; }
         public override double UpperBound => 3 * Math.Sqrt(VariableA) / (4 * Math.Sqrt(VariableC));
         public override double MathExpectation => VariableM;
-        public override double Variance => StandardDeviation * StandardDeviation - MathExpectation * MathExpectation;
 
-        public override double StandardDeviation =>
-            (20 * VariableC * VariableM * VariableM + 4 * VariableC * VariableC / VariableA) / (20 * VariableC);
+        public override double Variance =>
+            (20 * VariableC * VariableM * VariableM + 4 * VariableC * VariableC / VariableA) / (20 * VariableC) -
+            MathExpectation * MathExpectation;
+
+        public override double StandardDeviation => Math.Sqrt(Variance);
 
         public ProbabilityDensityFunctionA(double variableA, double variableC, double variableM)
         {

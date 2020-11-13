@@ -25,7 +25,7 @@ namespace RandomNumberGenerationAndModeling.ViewModel
         private double _variance;
         private double _standardDeviation;
         private ChartValues<double> _generatedNumbers;
-        private ChartValues<int> _frequencies;
+        private ChartValues<double> _frequencies;
 
         public ChartValues<double> GeneratedNumbers
         {
@@ -149,7 +149,7 @@ namespace RandomNumberGenerationAndModeling.ViewModel
         public int SampleSize { get; set; }
         public int BinsCount { get; set; }
 
-        public ChartValues<int> Frequencies
+        public ChartValues<double> Frequencies
         {
             get => _frequencies;
             set
@@ -166,11 +166,11 @@ namespace RandomNumberGenerationAndModeling.ViewModel
 
             Generators = new ObservableCollection<RandomGenerator>()
             {
-                new CongruentialGenerator(1000, 28934, 1234, 456, SampleSize),
-                new BbsGenerator(1000, 3247, SampleSize),
+                new CongruentialGenerator(1000, 893, 24, 7, SampleSize),
+                new BbsGenerator(26649, 863, SampleSize),
                 new CltSampler(75, 54, 15, SampleSize),
                 new BoxMullerSampler(865, 43, SampleSize),
-                new NeumannSampler(20, 100, SampleSize),
+                new NeumannSampler(-10000, 10000, SampleSize),
                 new InverseTransformSampler(SampleSize),
                 new LotterySampler(SampleSize)
             };
@@ -238,12 +238,18 @@ namespace RandomNumberGenerationAndModeling.ViewModel
             SelectedGenerator.Length = SampleSize;
 
             double[] numbers = SelectedGenerator.Generate().ToArray();
-            GeneratedNumbers = new ChartValues<double>(numbers);
+            if (numbers.Length < 1000)
+            {
+                GeneratedNumbers = new ChartValues<double>(numbers);
+            }
+            else
+            {
+                GeneratedNumbers = new ChartValues<double>();
+            }
             Estimator.EstimateSample(numbers);
 
-            IEnumerable<int> frequencies = Histogram.CountFrequencies(numbers, SelectedGenerator.FirstHorizontalBound,
-                SelectedGenerator.SecondHorizontalBound, BinsCount);
-            Frequencies = new ChartValues<int>(frequencies);
+            double[] frequencies = Histogram.CountFrequencies(numbers, BinsCount).ToArray();
+            Frequencies = new ChartValues<double>(frequencies);
         }
 
         private void OnPropertyChanged([CallerMemberName] string prop = "")

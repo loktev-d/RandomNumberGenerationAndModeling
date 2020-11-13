@@ -9,7 +9,7 @@ namespace RandomNumberGenerationAndModeling.Model
         public double Shift { get; set; }
         public double Scale { get; set; }
         public override double MathExpectation => Shift;
-        public override double Variance => (float) Math.Pow(Scale, 2);
+        public override double Variance => Math.Pow(Scale, 2);
         public override double StandardDeviation => Scale;
 
         public NormalSampler(double shift, double scale, int length) : base(length)
